@@ -10,7 +10,7 @@ class Shape{
         //Constructors
         Shape();
         Shape(Point* pnts, int count);
-        
+        Shape(std::string path);
         //Extended methods
         std::string getType();
         double area();
@@ -24,6 +24,11 @@ class Shape{
         void setPoints(Point* pnts);
         int getNumberOfVertices();
         void setNumberOfVertices(int v);
+
+        //Operator overloading
+        Shape& operator=(const Shape &s);
+        friend Shape operator+(Shape a, Shape b);
+        friend std::ostream &operator<<(std::ostream &out, Shape s);
     private:
         int p;
         Point* points;

@@ -7,6 +7,7 @@
 #include "Triangle.h"
 #include "Line.h"
 #include "Polygon.h"
+#include "memgmt.h" //Used to dynamically manage memory in arrays
 
 using namespace std;
 
@@ -47,28 +48,21 @@ int main(int argc, const char * argv[])
 
 
         //Usage of classes
-        Polygon thisShape(buffer, p);
-        cout << thisShape.area() << endl;
+        Shape shapeOne("./tests/poly1.txt");
+        Shape shapeTwo("./tests/poly2.txt");
+        Shape shapeThree("./tests/poly3.txt");
 
+
+        cout << "1: " << shapeOne << endl;
+        cout << "2: " << shapeTwo << endl;
+        cout << "3: " << shapeThree << endl;
+
+        Shape hello = shapeOne + shapeTwo;
+
+        cout << hello.area() << endl;
 
     }
 
     return 0;
 
-}
-
-Point* addToArray(Point* array, int bufferSize, Point value){
-    if(array == nullptr){
-        //If array is empty, create first slot and add the value
-        return new Point[1] {value};
-    }else{
-        Point* buffer = new Point[bufferSize + 1];
-        
-        for(int i = 0; i < bufferSize; i++){
-            buffer[i] = array[i];
-        }
-        buffer[bufferSize] = value;
-        
-        return buffer;
-    }
 }

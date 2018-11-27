@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include <cmath>
+#include <fstream>
 #include "Shape.h"
 #include "Point.h"
+#include "memgmt.h" //Used to dynamically manage memory in arrays
 
 using namespace std;
 
@@ -15,6 +17,39 @@ Shape::Shape(){
 Shape::Shape(Point* pnts, int count){
     points = pnts;
     p = count;
+}
+
+Shape::Shape(std::string path){
+    ifstream myReadFile;
+    myReadFile.open(path);
+
+    double a = 0;
+    int c = 1;
+    int p = 0;
+	Point* buffer = { 0 };
+    Point cPnt;
+
+    while (myReadFile >> a)
+    {   
+        a = (int)(a * 1000 + .5); 
+        a = a / 1000;
+
+        if (c % 2 == 0) {
+			//Append to Y
+            cPnt.setY(a);
+			buffer = addToArray(buffer, p, cPnt);
+			p++;
+
+		}else {
+			//Append to X
+			cPnt = Point(a,0);
+		}
+		c++;
+    }    
+    myReadFile.close();
+    
+    this->points = buffer;
+    this->p = p;
 }
 
 //Extended methods
@@ -184,4 +219,48 @@ int Shape::getNumberOfVertices(){
 }
 void Shape::setNumberOfVertices(int v){
     this->p = v;
+}
+
+//Operator overloading
+Shape& Shape::operator=(const Shape &s){
+    this->p = s.p;
+
+    Point* pnts = new Point[s.p];
+    for(int i = 0; i < s.p; i++){
+        pnts[i] = s.points[i];
+    }
+    
+    delete[] this->points;
+    this->points = nullptr;
+    this->points = pnts;
+
+    return *this;
+}
+
+Shape operator+(Shape a, Shape b){
+    Shape s = Shape();
+    s.p = (a.p + b.p);
+    
+    Point* buffer = new Point[s.p];
+    int aC = 0, bC = 0;
+
+    while(aC < a.p){
+        buffer[aC] = a.points[aC];
+        aC++;
+    }
+    while(bC < b.p){
+        buffer[aC + bC] = b.points[bC];
+        bC++;
+    }
+
+    s.points = buffer;
+    return s;
+}
+
+std::ostream &operator<<(std::ostream& out, Shape s){
+    for(int p = 0; p < s.getNumberOfVertices(); p++){
+        out << "{" << s.getPoints()[p].getX() << "," << s.getPoints()[p].getY() << "} ";
+    }
+    out << endl;
+    return out;
 }
