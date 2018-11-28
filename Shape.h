@@ -11,6 +11,7 @@ class Shape{
         Shape();
         Shape(Point* pnts, int count);
         Shape(std::string path);
+        
         //Extended methods
         std::string getType();
         double area();

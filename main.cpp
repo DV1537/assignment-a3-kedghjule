@@ -52,6 +52,8 @@ int main(int argc, const char * argv[])
         Shape shapeTwo("./tests/poly2.txt");
         Shape shapeThree("./tests/poly3.txt");
 
+        Line kool = Line(buffer, p);
+        
 
         cout << "1: " << shapeOne << endl;
         cout << "2: " << shapeTwo << endl;
