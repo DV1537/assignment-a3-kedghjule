@@ -1,0 +1,16 @@
+a = (int)(a * 1000 + .5); 
+            a = a / 1000;
+
+            if (c % 2 == 0) {
+			    //Append to Y
+                cPnt.setY(a);
+			    buffer = addToArray(buffer, p, cPnt);
+			    p++;
+
+		    }else {
+			    //Append to X
+			    cPnt = Point(a,0);
+		    }
+		    c++;
+
+            cout << a << endl;

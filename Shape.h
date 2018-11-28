@@ -10,7 +10,6 @@ class Shape{
         //Constructors
         Shape();
         Shape(Point* pnts, int count);
-        Shape(std::string path);
         
         //Extended methods
         std::string getType();
