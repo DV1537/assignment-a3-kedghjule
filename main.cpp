@@ -67,7 +67,8 @@ int main(int argc, const char * argv[])
         Polygon p1 = newShape[0];
         Polygon p2 = newShape[1];
 
-        //Usage of classes
+
+        //Usage of classes and testing
         
         
         Polygon tp1 = p1 + Point(23,23);
@@ -76,6 +77,11 @@ int main(int argc, const char * argv[])
 
         cout << "Area: " << tp2.area() << endl;
         cout << tp2 << endl;
+
+
+
+        //Clean up memory
+        delete[] newShape;
     }
 
     return 0;
