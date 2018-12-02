@@ -12,7 +12,6 @@
 using namespace std;
 
 Point* addToArray(Point* array, int bufferSize, Point value);
-Shape* addToArray(Shape* array, int bufferSize, Shape value);
 
 int main(int argc, const char * argv[])
 {
@@ -20,7 +19,9 @@ int main(int argc, const char * argv[])
     int c = 1; //Sub buffer in-time count
     int p = 0; //Sub buffer count
     int s = 0; //Total buffer count
-	Shape* newShape = nullptr;
+    const int numberOfShapes = 2; //Number of shapes to load
+
+	Polygon* newShape = new Polygon[numberOfShapes];
 
     Point cPnt;
 
@@ -57,23 +58,24 @@ int main(int argc, const char * argv[])
 		        c++;
             }
 
-            Shape thisShape = Shape(subBuffer, p);
-
-            cout << thisShape << endl;
-
-            newShape = addToArray(newShape, s, thisShape);
+            Polygon thisShape = Polygon(subBuffer, p);
+            newShape[s] = thisShape;
             s++;
-
-            
         }    
         myReadFile.close();
 
+        Polygon p1 = newShape[0];
+        Polygon p2 = newShape[1];
 
         //Usage of classes
         
-        //cout << newShape[0] << endl;
-        //cout << newShape[1] << endl;
+        
+        Polygon tp1 = p1 + Point(23,23);
+        Polygon tp2 = p1 + p2;
+        
 
+        cout << "Area: " << tp2.area() << endl;
+        cout << tp2 << endl;
     }
 
     return 0;
@@ -86,24 +88,6 @@ Point* addToArray(Point* array, int bufferSize, Point value){
         return new Point[1] {value};
     }else{
         Point* buffer = new Point[bufferSize + 1];
-        
-        for(int i = 0; i < bufferSize; i++){
-            buffer[i] = array[i];
-        }
-        buffer[bufferSize] = value;
-        
-        return buffer;
-    }
-}
-
-Shape* addToArray(Shape* array, int bufferSize, Shape value){
-    if(array == nullptr){
-        //If array is empty, create first slot and add the value
-        Shape* tmp = new Shape[1];
-        tmp[0] = value;
-        return tmp;
-    }else{
-        Shape* buffer = new Shape[bufferSize + 1];
         
         for(int i = 0; i < bufferSize; i++){
             buffer[i] = array[i];

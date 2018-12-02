@@ -25,7 +25,11 @@ void Point::setX(double X){
 void Point::setY(double Y){
     y = Y;
 }
-
+void Point::operator=(const Point &rhs)
+{
+    this->x = rhs.x;
+    this->y = rhs.y;
+}
 std::ostream& operator<<(std::ostream& os, const Point& t){
     os << "{x: " << t.x << ",y:" << t.y << "}"; 
     return os;  

@@ -12,6 +12,7 @@ class Point{
         void setX(double X);
         void setY(double Y);
 
+        void operator=(const Point &rhs);
         friend std::ostream& operator<<(std::ostream& os, const Point& t);
     private:
         double x;

@@ -14,3 +14,70 @@ a = (int)(a * 1000 + .5);
 		    c++;
 
             cout << a << endl;
+
+
+
+Point Shape::position(){
+    Point r = Point(0,0);
+    if(this->isConvex()){
+        double cXS = 0;
+        double cYS = 0;
+        for (int c = 0; c < p; c++) {
+		    cXS += points[c].getX();
+            cYS += points[c].getY();
+	    }
+        r = Point(cXS / p, cYS / p); 
+    }else{
+        //Find bounding box of polygon
+        int xL = 0;
+        int xH = 0;
+        int yL = 0;
+        int yH = 0;
+
+        for(int l = 0; l < p; l++){
+            if(points[l].getX() < points[xL].getX())
+                xL = l;
+            if(points[l].getY() < points[yL].getY())
+                yL = l;
+            if(points[l].getX() > points[xL].getX())
+                xH = l;
+            if(points[l].getY() > points[yL].getY())
+                yH = l;
+        }
+        
+        cout << points[xL].getX() << endl << points[xH].getX() << endl << points[yL].getX() << endl << points[yH].getX() << endl;
+    }
+    return r;
+}
+
+double Shape::circumference(){
+	double lSum = 0;
+	
+    if(p < 3){
+        lSum = -1;
+    }else{
+        for(int l = 0; l < p; l++){
+        //Get line segment
+        double p1X = points[l].getX();
+        double p1Y = points[l].getY();
+        double p2X = 0;
+        double p2Y = 0;
+
+        //Get end point
+        if(l == p - 1){
+            p2X = points[0].getX();
+            p2Y = points[0].getY();
+       }else{
+            p2X = points[l+1].getX();
+            p2Y = points[l+1].getY();
+        }
+
+		lSum += sqrt(pow(p1X-p2X,2) + pow(p1Y-p2Y,2));
+	}
+
+    lSum = round(lSum * 1000); 
+    lSum = lSum / 1000;
+
+    }
+	return lSum;
+}
