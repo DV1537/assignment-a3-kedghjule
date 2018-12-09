@@ -52,48 +52,43 @@ double Polygon::area(){
 }
 
 bool Polygon::isConvex(){
-    bool convex = true;
-    //Beräkna centrumpunkt i polygon med medelvärde
-    Point center = position();
-    
-    //Kontrollera alla punkter
-    for (int i = 0; i < p; i++) {
-		//Hämta närliggande index
-		int iXH = 0; //Index ovanför vårt X
-		int iXL = 0; //Index under vårt X
-		if (i == 0) { //Kolla om vår X-punkt är i början av listan
-			iXH = p - 1;
-			iXL = 1;
-		}else if (i == p - 1) { //Kolla om vår X-punkt är i slutet av listan
-			iXH = i - 1;
-			iXL = 0;
-		}else { //Kolla om vår X-punkt är i mitten av listan
-			iXH = i - 1;
-			iXL = i + 1;
-		}
-		
-        //Fastställ alla punkter i triangeln den utvalda triangeln
-        //Grannpunkt
-        double aX = points[iXH].getX(); 
-        double aY = points[iXH].getY();
-        //Denna punkt
-        double bX = points[i].getX();
-        double bY = points[i].getY();
-        //Grannpunkt
-        double cX = points[iXL].getX();
-		double cY = points[iXL].getY();
+    int s = this->p - 2;
+    double *cp = new double[s];
 
-        //Medelpunkt i triangeln
-        double mX = (aX + cX + bX) / 3;
-        double mY = (aY + cY + bY) / 3;
-        
-        double lOut = sqrt(pow(center.getX()-mX,2)+pow(center.getY()-mY,2)); //Längd från medelpunkt i triangeln till mitten
-        double pOrigin = sqrt(pow(center.getX()-bX,2)+pow(center.getY()-bY,2)); //Längd från denna punkt till mitten
+    double x1 = 0;
+    double x2 = 0;
+    double y1 = 0;
+    double y2 = 0;
 
-        if(lOut > pOrigin)
-            convex = false;
-	}
-    return convex;
+    for (int i = 0; i < s; i++)
+    {
+        x1 = points[i + 1].getX() - points[i].getX();
+        y1 = points[i + 1].getY() - points[i].getY();
+        x2 = points[i + 2].getX() - points[i + 1].getX();
+        y2 = points[i + 2].getY() - points[i + 1].getY();
+        cp[i] = x1 * y2 - y1 * x2;
+    }
+
+    bool positive = false;
+    bool negative = false;
+
+    for (int i = 0; i < s; i++)
+    {
+        if (cp[i] > 0){
+            positive = true;
+        }else{
+            negative = true;
+        }
+    }
+
+    delete[] cp;
+    cp = nullptr;
+
+    if (positive && negative){
+        return false;
+    }else{
+        return true;
+    }
 }
 
 double Polygon::circumference(){
@@ -130,14 +125,40 @@ double Polygon::circumference(){
 
 Point Polygon::position(){
     Point r = Point(0,0);
-    double cXS = 0;
-    double cYS = 0;
-    for (int c = 0; c < p; c++) {
-	    cXS += points[c].getX();
-        cYS += points[c].getY();
-	}
-    r = Point(cXS / p, cYS / p); 
+
+    if(isConvex()){
+        //Convex
+        double cXS = 0;
+        double cYS = 0;
+        for (int c = 0; c < p; c++) {
+	        cXS += points[c].getX();
+            cYS += points[c].getY();
+	    }
+        r = Point(cXS / p, cYS / p);
+    }else{
+        //Convave
+        int iXH = 0, iXL = 0, iYH = 0, iYL = 0;
+        
+        for(int i = 0; i < p; i++){
+            if (points[i].getX() > points[iXH].getX())
+                iXH = i;
+            if (points[i].getX() < points[iXL].getX())
+                iXL = i;
+            if (points[i].getY() > points[iYH].getY())
+                iYH = i;
+            if (points[i].getY() < points[iYL].getY())
+                iYL = i;
+        }
+
+        r = Point(fabs(points[iXH].getX() + points[iXL].getX()) / 2, fabs(points[iYH].getY() + points[iYL].getY()) / 2);
+    }
     return r;
+}
+
+void Polygon::operator=(const Polygon &rhs)
+{
+    points = rhs.points;
+    p = rhs.p;
 }
 
 Polygon operator+(Polygon a, Polygon b){

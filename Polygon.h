@@ -16,6 +16,7 @@ class Polygon: virtual Shape{
         double circumference();
         Point position();
 
+        void operator=(const Polygon& rhs);
         friend Polygon operator+(Polygon a, Polygon b);
         friend Polygon operator+(Polygon a, Point b);
         friend std::ostream &operator<<(std::ostream &out, Polygon s);
