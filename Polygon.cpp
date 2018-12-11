@@ -157,8 +157,10 @@ Point Polygon::position(){
 
 void Polygon::operator=(const Polygon &rhs)
 {
-    points = rhs.points;
     p = rhs.p;
+    points = new Point[rhs.p];
+    for (int k = 0; k < rhs.p; k++)
+        points[k] = rhs.points[k];
 }
 
 Polygon operator+(Polygon a, Polygon b){
