@@ -10,6 +10,10 @@ Polygon::Polygon(Point* pnts, int count){
     p = count;
 }
 
+Polygon::~Polygon(){
+    delete[] points;
+}
+
 std::string Polygon::getType(){
     return "Polygon";
 }

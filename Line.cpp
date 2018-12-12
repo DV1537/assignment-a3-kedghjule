@@ -23,6 +23,10 @@ Line::Line(Point p1, Point p2){
     p = 2;
 }
 
+Line::~Line(){
+    delete[] points;
+}
+
 std::string Line::getType(){
     return "Line";
 }

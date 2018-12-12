@@ -10,6 +10,7 @@ class Polygon: virtual Shape{
     public:
         Polygon();
         Polygon(Point* pnts, int count);
+        ~Polygon();
         std::string getType();
         double area();
         bool isConvex();

@@ -97,7 +97,7 @@ Point* addToArray(Point* array, int bufferSize, Point value){
             buffer[i] = array[i];
         }
         buffer[bufferSize] = value;
-        
+        delete[] array;
         return buffer;
     }
 }

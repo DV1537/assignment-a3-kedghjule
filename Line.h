@@ -10,6 +10,7 @@ class Line: virtual Shape{
     public:
         Line(Point* pnts, int count);
         Line(Point p1, Point p2);
+        ~Line();
         std::string getType();
         double area();
         bool isConvex();

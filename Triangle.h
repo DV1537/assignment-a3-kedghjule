@@ -11,6 +11,7 @@ class Triangle: virtual Shape{
         Triangle();
         Triangle(Point* pnts, int count);
         Triangle(Point p1, Point p2, Point p3);
+        ~Triangle();
         std::string getType();
         double area();
         bool isConvex();
